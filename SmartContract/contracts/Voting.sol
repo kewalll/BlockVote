@@ -3,6 +3,7 @@ pragma solidity ^0.8.0;
 
 contract VotingPool {
     address public admin;
+    string public poolName; // Added Pool Name
     uint256 public startTime;
     uint256 public endTime;
     string[] public candidates;
@@ -14,12 +15,14 @@ contract VotingPool {
 
     constructor(
         address _admin,
+        string memory _poolName,
         uint256 _startTime,
         uint256 _endTime,
         string[] memory _candidates,
         address[] memory _voters // List of allowed voters
     ) {
         admin = _admin;
+        poolName = _poolName; // Store pool name
         startTime = _startTime;
         endTime = _endTime;
         candidates = _candidates;
@@ -44,6 +47,15 @@ contract VotingPool {
         require(isVoter[msg.sender], "Not a registered voter");
         _;
     }
+
+    function getPoolName() public view returns (string memory) {
+        return poolName;
+    }
+    
+    function getCandidates() external view returns (string[] memory) {
+        return candidates;
+    }
+
 
     function vote(string memory candidate) external votingActive onlyRegisteredVoter {
         require(!hasVoted[msg.sender], "Already voted");
@@ -71,7 +83,7 @@ contract VotingFactory {
     VotingPool[] public votingPools;
     address[] public registeredVoters;
 
-    event VotingPoolCreated(address indexed poolAddress);
+    event VotingPoolCreated(address indexed poolAddress, string poolName); // Updated Event
 
     constructor(address[] memory _voters) {
         admin = msg.sender;
@@ -84,12 +96,14 @@ contract VotingFactory {
     }
 
     function createVotingPool(
+        string memory _poolName, // Accepting Pool Name
         uint256 _startTime,
         uint256 _endTime,
         string[] memory _candidates
     ) external onlyAdmin {
         VotingPool newPool = new VotingPool(
             msg.sender,
+            _poolName, // Passing Pool Name
             _startTime,
             _endTime,
             _candidates,
@@ -97,7 +111,7 @@ contract VotingFactory {
         );
         votingPools.push(newPool);
 
-        emit VotingPoolCreated(address(newPool));
+        emit VotingPoolCreated(address(newPool), _poolName); // Updated Event Emission
     }
 
     function getAllPools() external view returns (VotingPool[] memory) {
