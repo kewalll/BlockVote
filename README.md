@@ -99,3 +99,5 @@ BlockVote is a decentralized, secure, and transparent blockchain-based voting sy
 - **Kewal B Nanavati**
 - **Dhairya A Mehra**
 
+## License  
+This project is licensed under the **MIT License** – see the [LICENSE](./LICENSE) file for details.  
