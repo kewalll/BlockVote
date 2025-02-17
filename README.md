@@ -69,7 +69,8 @@ BlockVote is a decentralized, secure, and transparent blockchain-based voting sy
 
 3. **Compile & Deploy Smart Contracts**
    ```bash
-
+   npx hardhat compile
+   npx hardhat run scripts/voting.js --network volta
    ```
 
 4. **Run Frontend**
