@@ -27,19 +27,19 @@ BlockVote is a decentralized, secure, and transparent blockchain-based voting sy
 
 ## Screenshots  
 ### Landing Page  
-![Landing Page](./screenshots/landing_page.png)  
+![Landing Page](./screenshots/Landing_Page.png)  
 
 ### Admin Panel  
-![Admin Panel](./screenshots/admin_panel.png)  
+![Admin Panel](./screenshots/Admin_Panel.png)  
 
 ### Admin Dashboard  
-![Admin Dashboard](./screenshots/admin_dashboard.png)  
+![Admin Dashboard](./screenshots/Admin_Dashboard.png)  
 
 ### Voting Results  
-![Voting Results](./screenshots/voting_results.png)  
+![Voting Results](./screenshots/Voting_Results.png)  
 
 ### Voting Interface  
-![Voting Interface](./screenshots/voting_interface.png)  
+![Voting Interface](./screenshots/Voting_Interface.png)  
  
 
 ## Installation & Setup  
