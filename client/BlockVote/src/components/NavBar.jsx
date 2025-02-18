@@ -1,7 +1,6 @@
 import { useState } from "react";
 import logoUrl from "../assets/BlockVote-1.png";
 import { useMotionValueEvent, useScroll } from "framer-motion";
-import MobileMenu from "./MobileMenu";
 
 const NavBar = (props) => {
   const { scrollY } = useScroll();
@@ -55,12 +54,11 @@ const NavBar = (props) => {
             </ul>
           </nav>
 
-          <div className="hidden md:block" onClick={props.connectWallet}>
+          <div className="md:block" onClick={props.connectWallet}>
             <a className="bg-black px-4 py-2 rounded-md text-white cursor-pointer">
               Login
             </a>
           </div>
-          <MobileMenu />
         </div>
       </div>
     </div>
