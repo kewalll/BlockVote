@@ -1,4 +1,4 @@
-export const FACTORY_CONTRACT_ADDRESS = "0xDF556c0fe317eba7B39148307C98227e6981396A"; // Replace with actual contract address
+export const FACTORY_CONTRACT_ADDRESS = "0x65d1d9B8A613CCf4A630144FdB4C23b6538AfBFA"; // Replace with actual contract address
 
 // src/constants/index.js
 export const FACTORY_CONTRACT_ABI = [
@@ -12,6 +12,19 @@ export const FACTORY_CONTRACT_ABI = [
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "voter",
+        "type": "address"
+      }
+    ],
+    "name": "VoterAdded",
+    "type": "event"
   },
   {
     "anonymous": false,
@@ -33,6 +46,19 @@ export const FACTORY_CONTRACT_ABI = [
     "type": "event"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "voter",
+        "type": "address"
+      }
+    ],
+    "name": "addVoter",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "admin",
     "outputs": [
@@ -40,6 +66,19 @@ export const FACTORY_CONTRACT_ABI = [
         "internalType": "address",
         "name": "",
         "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "countVoters",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -81,6 +120,38 @@ export const FACTORY_CONTRACT_ABI = [
         "internalType": "contract VotingPool[]",
         "name": "",
         "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getRegisteredVoters",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "isVoter",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",

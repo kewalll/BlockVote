@@ -5,6 +5,7 @@ import HomePage from "./pages/HomePage";
 import CreatePool from "./pages/CreatePool";
 import Vote from "./pages/Vote";
 import Results from "./pages/Results";
+import AddVoter from "./pages/AddVoter";
 import LandingPage from "./pages/LandingPage"; // Importing Landing Page
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route path="/create" element={<CreatePool />} />
           <Route path="/vote/:poolAddress" element={<Vote />} />
           <Route path="/results/:poolAddress" element={<Results />} />
+          <Route path="/add-voter" element={<AddVoter />} />
         </Routes>
       </Router>
     </VotingProvider>

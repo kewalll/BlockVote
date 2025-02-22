@@ -3,13 +3,13 @@ pragma solidity ^0.8.0;
 
 contract VotingPool {
     address public admin;
-    string public poolName; // Added Pool Name
+    string public poolName;
     uint256 public startTime;
     uint256 public endTime;
     string[] public candidates;
     mapping(string => uint256) public votesReceived;
     mapping(address => bool) public hasVoted;
-    mapping(address => bool) public isVoter; // Store allowed voters
+    mapping(address => bool) public isVoter;
 
     event VoteCasted(address indexed voter, string candidate);
 
@@ -19,15 +19,14 @@ contract VotingPool {
         uint256 _startTime,
         uint256 _endTime,
         string[] memory _candidates,
-        address[] memory _voters // List of allowed voters
+        address[] memory _voters
     ) {
         admin = _admin;
-        poolName = _poolName; // Store pool name
+        poolName = _poolName;
         startTime = _startTime;
         endTime = _endTime;
         candidates = _candidates;
 
-        // Store allowed voters
         for (uint256 i = 0; i < _voters.length; i++) {
             isVoter[_voters[i]] = true;
         }
@@ -43,21 +42,20 @@ contract VotingPool {
         _;
     }
 
-    modifier onlyRegisteredVoter() {
-        require(isVoter[msg.sender], "Not a registered voter");
+    modifier onlyRegisteredVoter(address voter) {
+        require(isVoter[voter], "Not a registered voter");
         _;
     }
 
     function getPoolName() public view returns (string memory) {
         return poolName;
     }
-    
+
     function getCandidates() external view returns (string[] memory) {
         return candidates;
     }
 
-
-    function vote(string memory candidate) external votingActive onlyRegisteredVoter {
+    function vote(string memory candidate) external votingActive onlyRegisteredVoter(msg.sender) {
         require(!hasVoted[msg.sender], "Already voted");
         hasVoted[msg.sender] = true;
         votesReceived[candidate] += 1;
@@ -81,13 +79,18 @@ contract VotingPool {
 contract VotingFactory {
     address public admin;
     VotingPool[] public votingPools;
+    mapping(address => bool) public isVoter;
     address[] public registeredVoters;
 
-    event VotingPoolCreated(address indexed poolAddress, string poolName); // Updated Event
+    event VotingPoolCreated(address indexed poolAddress, string poolName);
+    event VoterAdded(address indexed voter);
 
     constructor(address[] memory _voters) {
         admin = msg.sender;
-        registeredVoters = _voters; // Store registered voters
+        for (uint256 i = 0; i < _voters.length; i++) {
+            isVoter[_voters[i]] = true;
+            registeredVoters.push(_voters[i]);
+        }
     }
 
     modifier onlyAdmin() {
@@ -96,25 +99,40 @@ contract VotingFactory {
     }
 
     function createVotingPool(
-        string memory _poolName, // Accepting Pool Name
+        string memory _poolName,
         uint256 _startTime,
         uint256 _endTime,
         string[] memory _candidates
     ) external onlyAdmin {
         VotingPool newPool = new VotingPool(
             msg.sender,
-            _poolName, // Passing Pool Name
+            _poolName,
             _startTime,
             _endTime,
             _candidates,
-            registeredVoters // Pass voter list to each pool
+            registeredVoters
         );
         votingPools.push(newPool);
 
-        emit VotingPoolCreated(address(newPool), _poolName); // Updated Event Emission
+        emit VotingPoolCreated(address(newPool), _poolName);
     }
 
     function getAllPools() external view returns (VotingPool[] memory) {
         return votingPools;
+    }
+
+    function addVoter(address voter) external onlyAdmin {
+        require(!isVoter[voter], "Voter already registered");
+        isVoter[voter] = true;
+        registeredVoters.push(voter);
+        emit VoterAdded(voter);
+    }
+
+    function getRegisteredVoters() external view returns (address[] memory) {
+        return registeredVoters;
+    }
+
+    function countVoters() external view returns (uint256) {
+        return registeredVoters.length;
     }
 }

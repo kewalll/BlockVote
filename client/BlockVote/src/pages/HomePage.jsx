@@ -34,7 +34,6 @@ function HomePage() {
 
                     updatePools(poolDetails.sort((a, b) => b.endTime - a.endTime));
 
-
                     const admin = await factoryContract.admin();
                     setIsAdmin(account.toLowerCase() === admin.toLowerCase());
                 } catch (error) {
@@ -46,17 +45,10 @@ function HomePage() {
         fetchPools();
     }, [account, updatePools]);
 
-    const goToCreatePool = () => {
-        navigate('/create');
-    };
-
-    const goToVote = (poolAddress) => {
-        navigate(`/vote/${poolAddress}`);
-    };
-
-    const goToResults = (poolAddress) => {
-        navigate(`/results/${poolAddress}`);
-    };
+    const goToCreatePool = () => navigate('/create');
+    const goToAddVoter = () => navigate('/add-voter');
+    const goToVote = (poolAddress) => navigate(`/vote/${poolAddress}`);
+    const goToResults = (poolAddress) => navigate(`/results/${poolAddress}`);
 
     const formatDate = (timestamp) => {
         const date = new Date(timestamp);
@@ -68,12 +60,18 @@ function HomePage() {
             <h1 className="text-3xl font-bold text-center mb-6 text-gray-900">Voting Pools</h1>
 
             {isAdmin && (
-                <div className="flex justify-center mb-6">
+                <div className="flex justify-center gap-4 mb-6">
                     <button
                         className="bg-indigo-600 hover:bg-indigo-700 transition duration-300 text-white font-semibold py-2 px-6 rounded-lg shadow-lg"
                         onClick={goToCreatePool}
                     >
                         + Create New Pool
+                    </button>
+                    <button
+                        className="bg-green-600 hover:bg-green-700 transition duration-300 text-white font-semibold py-2 px-6 rounded-lg shadow-lg"
+                        onClick={goToAddVoter}
+                    >
+                        + Add Voter
                     </button>
                 </div>
             )}
